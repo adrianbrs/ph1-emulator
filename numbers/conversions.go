@@ -5,13 +5,13 @@ import (
 	"strconv"
 )
 
-// HexToUint converte hex para inteiro sem sinal de 64 bits
-func HexToUint(str string, bits int) (res uint64, err error) {
-	res, err = strconv.ParseUint(str, 16, bits)
+// HexToInt converte hex para inteiro sem sinal de 64 bits
+func HexToInt(str string, bits int) (int, error) {
+	res, err := strconv.ParseUint(str, 16, bits)
 	if err != nil {
 		return 0, err
 	}
-	return res, nil
+	return int(res), nil
 }
 
 // IntToHex converte inteiro para hexadecimal (string)
