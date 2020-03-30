@@ -1,27 +1,27 @@
 package ula
 
 //ExecuteOperation executa a operação de acordo com o opcode
-func ExecuteOperation(ulaOp string, memoryValue int, *pc int) {
-	pcInt8 := int8(pc)
+func ExecuteOperation(ulaOp string, memoryValue int, *ac int) {
+	acInt8 := int8(ac)
 	switch ulaOp {
 	case "NOT":
-		pc = ^pc
+		ac = ^pc
 	case "ADD":
-		pc += memoryValue
+		ac += memoryValue
 	case "SUM":
-		pc -= memoryValue
+		ac -= memoryValue
 	case "MUL":
-		pc *= memoryValue
+		ac *= memoryValue
 	case "DIV":
 		pc /= memoryValue
 	case "AND":
-		pcInt8 = pcInt8 & memoryValue
-		pc = int(pcInt8)
+		acInt8 = acInt8 & memoryValue
+		ac = int(pcInt8)
 	case "OR":
-		pcInt8 = pcInt8 | memoryValue
-		pc = int(pcInt8)
+		acInt8 = acInt8 | memoryValue
+		ac = int(acInt8)
 	case "XOR":
-		pcInt8 = pcInt8 ^ memoryValue
-		pc = int(pcInt8)
+		acInt8 = acInt8 ^ memoryValue
+		ac = int(acInt8)
 	}
 }
