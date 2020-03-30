@@ -8,13 +8,13 @@ func ExecuteOperation(ulaOp string, memoryValue int, ac int) int {
 	case "NOT":
 		ac = ^ac
 	case "ADD":
-		ac += memoryValueInt8
+		ac += memoryValue
 	case "SUM":
-		ac -= memoryValueInt8
+		ac -= memoryValue
 	case "MUL":
-		ac *= memoryValueInt8
+		ac *= memoryValue
 	case "DIV":
-		ac /= memoryValueInt8
+		ac /= memoryValue
 	case "AND":
 		acInt8 = acInt8 & memoryValueInt8
 		ac = int(acInt8)
