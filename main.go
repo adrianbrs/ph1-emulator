@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"fmt"
 	"log"
+	"os"
 	"ph1-emulator/decoder"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
@@ -47,27 +50,53 @@ func (uc *UnityControl) Start() {
 	}
 }
 
-func main() {
-	virtualMemory := memory.New()
+func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.VirtualMemory) {
+	var values map[string]string
 
-	// Fake data
-	fakeValues := map[string]string{
-		"00": "10",
-		"01": "81",
-		"02": "30",
-		"03": "82",
-		"04": "20",
-		"05": "80",
-		"06": "F0",
-		"80": "00",
-		"81": "05",
-		"82": "02",
+	for _, instruction := range instructions {
+		runeAuxiliar := []rune(instruction)
+		address := string(runeAuxiliar[0:2])
+		value := string(runeAuxiliar[3:5])
+
+		values = map[string]string{
+			address: value}
 	}
-	for addr, val := range fakeValues {
+
+	for addr, val := range values {
 		addr := numbers.HexToInt(addr, 8)
 		val := numbers.HexToInt(val, 8)
 		virtualMemory.SetValue(addr, val)
 	}
+}
+
+func getFileName() string {
+	var instruction string
+	fmt.Println("Digite o nome do arquivo desejado:")
+	fmt.Scan(&instruction)
+
+	return instruction
+}
+
+func readFile(fileName string) []string {
+	var instructions []string
+	file, err := os.Open(fileName)
+
+	if err != nil {
+		log.Fatal("Unable to open file")
+	}
+
+	reader := bufio.NewReader(file)
+	reader.ReadLine()
+
+	return instructions
+}
+
+func main() {
+	fileName := getFileName()
+	instructionFile := readFile(fileName)
+	virtualMemory := memory.New()
+
+	mapFileInfoToVirtualMemory(instructionFile, virtualMemory)
 
 	uc := &UnityControl{
 		Memory:  virtualMemory,
@@ -78,6 +107,5 @@ func main() {
 	}
 
 	uc.Start()
-
 	log.Print(uc.Counter)
 }
