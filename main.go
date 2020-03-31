@@ -51,15 +51,12 @@ func (uc *UnityControl) Start() {
 }
 
 func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.VirtualMemory) {
-	var values map[string]string
+	var values = map[string]string{}
 
 	for _, instruction := range instructions {
-		runeAuxiliar := []rune(instruction)
-		address := string(runeAuxiliar[0:2])
-		value := string(runeAuxiliar[3:5])
-
-		values = map[string]string{
-			address: value}
+		address := instruction[0:2]
+		value := instruction[3:5]
+		values[address] = value
 	}
 
 	for addr, val := range values {
@@ -78,17 +75,19 @@ func getFileName() string {
 }
 
 func readFile(fileName string) []string {
-	var instructions []string
-	file, err := os.Open(fileName)
 
+	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal("Unable to open file")
 	}
+	defer file.Close()
 
-	reader := bufio.NewReader(file)
-	reader.ReadLine()
-
-	return instructions
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
 }
 
 func main() {
