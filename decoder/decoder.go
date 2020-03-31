@@ -1,5 +1,7 @@
 package decoder
 
+import "ph1-emulator/numbers"
+
 // PH1Instruction constructor contendo mnemonico e se uma instrução
 // necessita de um endereço
 type PH1Instruction struct {
@@ -27,7 +29,8 @@ var availableInstructions = map[string]PH1Instruction{
 }
 
 // DecodeInstruction decodifica uma instrução pelo seu opcode
-func DecodeInstruction(opcode string) (string, bool) {
-	instruction := availableInstructions[opcode]
+func DecodeInstruction(opcodeInt int) (string, bool) {
+	opcodeHex := numbers.IntToHex(opcodeInt, 2)
+	instruction := availableInstructions[opcodeHex]
 	return instruction.name, instruction.hasAddress
 }

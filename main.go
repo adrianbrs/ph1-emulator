@@ -18,8 +18,8 @@ type UnityControl struct {
 }
 
 // GetNextInstruction pega a proxima instrução
-func (uc *UnityControl) GetNextInstruction() string {
-	return numbers.IntToHex(uc.Memory.GetValue(uc.PC.GetValue()), 2)
+func (uc *UnityControl) GetNextInstruction() int {
+	return uc.Memory.GetValue(uc.PC.GetValue())
 }
 
 // Start inicia a unidade de controle
@@ -31,7 +31,7 @@ func (uc *UnityControl) Start() {
 		// PC++
 		uc.PC.Increment()
 
-		var end string
+		var end int
 		if hasAddress {
 			// Endereço está na proxima instrução
 			end = uc.GetNextInstruction()
