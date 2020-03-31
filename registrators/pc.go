@@ -5,8 +5,8 @@ type RegPC struct {
 	value int
 }
 
-// Increase adiciona 1 ao valor do registrador
-func (reg *RegPC) Increase() *RegPC {
+// Increment adiciona 1 ao valor do registrador
+func (reg *RegPC) Increment() *RegPC {
 	reg.value++
 	return reg
 }

@@ -17,7 +17,7 @@ func (reg *RegAC) SetValue(val int) *RegAC {
 }
 
 // NewRegAC cria uma nova instância do registrador AC
-func NewRegAC() (pc *RegAC) {
-	pc = &RegAC{value: 0}
-	return pc
+func NewRegAC() (ac *RegAC) {
+	ac = &RegAC{value: 0}
+	return ac
 }

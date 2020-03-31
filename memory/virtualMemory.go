@@ -1,10 +1,8 @@
 package memory
 
 import (
-	"fmt"
 	"log"
 	"ph1-emulator/config"
-	"reflect"
 	"strconv"
 )
 
@@ -26,11 +24,11 @@ func (mem *VirtualMemory) GetValue(addr int) int {
 // New retorna uma nova instância da memória virtual
 func New() (mem *VirtualMemory) {
 	mem = &VirtualMemory{
-		Data: make(map[int]int)
+		Data: make(map[int]int),
 	}
 
 	// Preenche a memória com 0
-	for idx = 0; idx < 256; idx++ {
+	for idx := 0; idx < 256; idx++ {
 		mem.Data[idx] = 0
 	}
 
@@ -38,17 +36,17 @@ func New() (mem *VirtualMemory) {
 }
 
 func parseAddr(addr int) int {
-	addr, err := strconv.ParseUint(strconv.Itoa(addr), config.HexaBaseValue, config.AddrLength)
+	res, err := strconv.ParseUint(strconv.Itoa(addr), 10, config.AddrLength)
 	if err != nil {
-		log.Fatal("VirtualMemory address overflow: %d", addr)
+		log.Fatalf("VirtualMemory address overflow: %d", addr)
 	}
-	return int(addr)
+	return int(res)
 }
 
 func parseWord(val int) int {
-	res, err := strconv.ParseUint(strconv.Itoa(val), config.HexaBaseValue, config.WordLength)
+	res, err := strconv.ParseUint(strconv.Itoa(val), 10, config.WordLength)
 	if err != nil {
-		log.Fatal("VirtualMemory word length overflow: %d", val)
+		log.Fatalf("VirtualMemory word length overflow: %d", val)
 	}
 	return int(res)
 }
