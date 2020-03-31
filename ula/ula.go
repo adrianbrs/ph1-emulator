@@ -5,7 +5,7 @@ func ExecuteOperation(ulaOp string, memoryValue int, *ac int) {
 	acInt8 := int8(ac)
 	switch ulaOp {
 	case "NOT":
-		ac = ^pc
+		ac = ^ac
 	case "ADD":
 		ac += memoryValue
 	case "SUM":
@@ -13,10 +13,10 @@ func ExecuteOperation(ulaOp string, memoryValue int, *ac int) {
 	case "MUL":
 		ac *= memoryValue
 	case "DIV":
-		pc /= memoryValue
+		ac /= memoryValue
 	case "AND":
 		acInt8 = acInt8 & memoryValue
-		ac = int(pcInt8)
+		ac = int(acInt8)
 	case "OR":
 		acInt8 = acInt8 | memoryValue
 		ac = int(acInt8)
