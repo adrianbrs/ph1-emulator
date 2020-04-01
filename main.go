@@ -50,6 +50,36 @@ func (uc *UnityControl) Start() {
 	}
 }
 
+//getFileName le o input do usuario cujo conteudo eh o nome do arquivo de instrucoes
+//a ser aberto para leitura
+func getFileName() string {
+	var instruction string
+	fmt.Println("Digite o nome do arquivo desejado:")
+	fmt.Scan(&instruction)
+
+	return instruction
+}
+
+//readFile lê o arquivo cujo nome foi inserido pelo usuario na funcao getFileName()
+//scaneia linha à linha o bloco de string lido e retorna uma listra de string com todas as linhas
+func readFile(fileName string) []string {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal("Unable to open file")
+	}
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
+}
+
+//Recebe a lista de linhas lidas do arquivo e uma instancia de memoria virtual
+//le cada linha e mapeia o conteudo em endereco e  valor
+//recebe esse map e converte em inteiro para popular os campos da memoria virtual
 func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.VirtualMemory) {
 	var values = map[string]string{}
 
@@ -64,30 +94,6 @@ func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.Vir
 		val := numbers.HexToInt(val, 8)
 		virtualMemory.SetValue(addr, val)
 	}
-}
-
-func getFileName() string {
-	var instruction string
-	fmt.Println("Digite o nome do arquivo desejado:")
-	fmt.Scan(&instruction)
-
-	return instruction
-}
-
-func readFile(fileName string) []string {
-
-	file, err := os.Open(fileName)
-	if err != nil {
-		log.Fatal("Unable to open file")
-	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	return lines
 }
 
 func main() {
