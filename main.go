@@ -96,13 +96,7 @@ func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.Vir
 	}
 }
 
-func main() {
-	fileName := getFileName()
-	instructionFile := readFile(fileName)
-	virtualMemory := memory.New()
-
-	mapFileInfoToVirtualMemory(instructionFile, virtualMemory)
-
+func initializeUnityControl(virtualMemory *memory.VirtualMemory) *UnityControl {
 	uc := &UnityControl{
 		Memory:  virtualMemory,
 		AC:      registrators.NewRegAC(),
@@ -110,6 +104,16 @@ func main() {
 		Houte:   false,
 		Counter: 0,
 	}
+	return uc
+}
+
+func main() {
+	fileName := getFileName()
+	instructionFile := readFile(fileName)
+	virtualMemory := memory.New()
+
+	mapFileInfoToVirtualMemory(instructionFile, virtualMemory)
+	uc := initializeUnityControl(virtualMemory)
 
 	uc.Start()
 	log.Print(uc.Counter)
