@@ -78,17 +78,17 @@ func readFile(fileName string) []string {
 }
 
 //Recebe a lista de linhas lidas do arquivo e uma instancia de memoria virtual
-//le cada linha e mapeia o conteudo em endereco e  valor
-//recebe esse map e converte em inteiro para popular os campos da memoria virtual
 func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.VirtualMemory) {
 	var values = map[string]string{}
 
+	//le cada linha e mapeia o conteudo em endereco e  valor
 	for _, instruction := range instructions {
 		address := instruction[0:2]
 		value := instruction[3:5]
 		values[address] = value
 	}
 
+	//recebe esse map e converte em inteiro para popular os campos da memoria virtual
 	for addr, val := range values {
 		addr := numbers.HexToInt(addr, 8)
 		val := numbers.HexToInt(val, 8)
