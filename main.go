@@ -61,7 +61,6 @@ func getFileName() string {
 }
 
 //readFile lê o arquivo cujo nome foi inserido pelo usuario na funcao getFileName()
-//scaneia linha à linha o bloco de string lido e retorna uma listra de string com todas as linhas
 func readFile(fileName string) []string {
 	file, err := os.Open(fileName)
 	if err != nil {
@@ -69,6 +68,7 @@ func readFile(fileName string) []string {
 	}
 	defer file.Close()
 
+	//scaneia linha à linha o bloco de string lido e retorna uma lista de string com todas as linhas
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
