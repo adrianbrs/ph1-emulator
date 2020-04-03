@@ -5,50 +5,10 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"ph1-emulator/decoder"
+	"ph1-emulator/control"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
-	"ph1-emulator/registrators"
 )
-
-// UnityControl => Unidade de Controle
-type UnityControl struct {
-	Memory  *memory.VirtualMemory
-	AC      *registrators.RegAC
-	PC      *registrators.RegPC
-	Houte   bool
-	Counter int
-}
-
-// GetNextInstruction pega a proxima instrução
-func (uc *UnityControl) GetNextInstruction() int {
-	return uc.Memory.GetValue(uc.PC.GetValue())
-}
-
-// Start inicia a unidade de controle
-func (uc *UnityControl) Start() {
-	for !uc.Houte {
-		nextInstruction := uc.GetNextInstruction()
-		name, hasAddress := decoder.DecodeInstruction(nextInstruction)
-
-		// PC++
-		uc.PC.Increment()
-
-		var end int
-		if hasAddress {
-			// Endereço está na proxima instrução
-			end = uc.GetNextInstruction()
-			uc.PC.Increment()
-		}
-
-		log.Print("Nome: "+name+", ", end)
-
-		if name == "HLT" {
-			uc.Houte = true
-		}
-		uc.Counter++
-	}
-}
 
 //getFileName le o input do usuario cujo conteudo eh o nome do arquivo de instrucoes
 //a ser aberto para leitura
@@ -78,7 +38,7 @@ func readFile(fileName string) []string {
 }
 
 //Recebe a lista de linhas lidas do arquivo e uma instancia de memoria virtual
-func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.VirtualMemory) {
+func mapFileInfoToVirtualMemory(instructions []string) {
 	var values = map[string]string{}
 
 	//le cada linha e mapeia o conteudo em endereco e  valor
@@ -92,29 +52,16 @@ func mapFileInfoToVirtualMemory(instructions []string, virtualMemory *memory.Vir
 	for addr, val := range values {
 		addr := numbers.HexToInt(addr, 8)
 		val := numbers.HexToInt(val, 8)
-		virtualMemory.SetValue(addr, val)
+		memory.VirtualMemory.SetValue(addr, val)
 	}
-}
-
-func initializeUnityControl(virtualMemory *memory.VirtualMemory) *UnityControl {
-	uc := &UnityControl{
-		Memory:  virtualMemory,
-		AC:      registrators.NewRegAC(),
-		PC:      registrators.NewRegPC(),
-		Houte:   false,
-		Counter: 0,
-	}
-	return uc
 }
 
 func main() {
 	fileName := getFileName()
 	instructionFile := readFile(fileName)
-	virtualMemory := memory.New()
 
-	mapFileInfoToVirtualMemory(instructionFile, virtualMemory)
-	uc := initializeUnityControl(virtualMemory)
+	mapFileInfoToVirtualMemory(instructionFile)
 
-	uc.Start()
-	log.Print(uc.Counter)
+	control.UnityControl.Start()
+	log.Print(control.UnityControl.Counter)
 }
