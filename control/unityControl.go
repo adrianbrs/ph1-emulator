@@ -62,39 +62,3 @@ func newUnityControl() *unityControl {
 
 // UnityControl => Unidade de Controle
 var UnityControl = newUnityControl()
-
-func (uc *unityControl) ExecuteOpNOP() {}
-
-func (uc *unityControl) ExecuteOpLDR(value int) {
-	regs.RegAC.Value = value
-}
-
-func (uc *unityControl) ExecuteOpSTR(value int) {
-	memory.VirtualMemory.SetValue(value, regs.RegAC.Value)
-}
-
-func (uc *unityControl) ExecuteOpJMP(value int) {
-	regs.RegPC.SetValue(value)
-}
-
-func (uc *unityControl) ExecuteOpJEQ(value int) {
-	if regs.RegAC.Value == 0 {
-		regs.RegPC.SetValue(value)
-	}
-}
-
-func (uc *unityControl) ExecuteOpJG(value int) {
-	if regs.RegAC.Value > 0 {
-		regs.RegPC.SetValue(value)
-	}
-}
-
-func (uc *unityControl) ExecuteOpJL(value int) {
-	if regs.RegAC.Value < 0 {
-		regs.RegPC.SetValue(value)
-	}
-}
-
-func (uc *unityControl) ExecuteOpHLT() {
-	uc.Houte = true
-}

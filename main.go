@@ -8,6 +8,7 @@ import (
 	"ph1-emulator/control"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
+	"ph1-emulator/regs"
 )
 
 //getFileName le o input do usuario cujo conteudo eh o nome do arquivo de instrucoes
@@ -64,5 +65,9 @@ func main() {
 	mapFileInfoToVirtualMemory(instructionFile)
 
 	control.UnityControl.Start()
-	log.Print(control.UnityControl.Counter)
+
+	log.Printf("AC: %02X", regs.RegAC.Value)
+	log.Printf("PC: %02X", regs.RegPC.GetValue())
+
+	log.Printf("Instructions: %d", control.UnityControl.Counter)
 }
