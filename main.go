@@ -14,8 +14,9 @@ import (
 //a ser aberto para leitura
 func getFileName() string {
 	var instruction string
-	fmt.Println("Digite o nome do arquivo desejado:")
+	fmt.Print("Digite o nome do arquivo desejado: ")
 	fmt.Scan(&instruction)
+	fmt.Println()
 
 	return instruction
 }

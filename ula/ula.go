@@ -1,29 +1,63 @@
 package ula
 
+import (
+	"log"
+	"reflect"
+	"strings"
+)
+
+type ULA struct{}
+
+func New() *ULA {
+	ula := &ULA{}
+	return ula
+}
+
 //ExecuteOperation executa a operação de acordo com o opcode
-func ExecuteOperation(ulaOp string, memoryValue int, ac int) int {
-	acInt8 := int8(ac)
-	memoryValueInt8 := int8(memoryValue)
-	switch ulaOp {
-	case "NOT":
-		ac = ^ac
-	case "ADD":
-		ac += memoryValue
-	case "SUM":
-		ac -= memoryValue
-	case "MUL":
-		ac *= memoryValue
-	case "DIV":
-		ac /= memoryValue
-	case "AND":
-		acInt8 = acInt8 & memoryValueInt8
-		ac = int(acInt8)
-	case "OR":
-		acInt8 = acInt8 | memoryValueInt8
-		ac = int(acInt8)
-	case "XOR":
-		acInt8 = acInt8 ^ memoryValueInt8
-		ac = int(acInt8)
+func (ula *ULA) Execute(ulaOp string, memoryValue int) {
+	method := reflect.ValueOf(ula).MethodByName("ExecuteOp" + strings.ToUpper(ulaOp))
+
+	if !method.IsValid() {
+		log.Fatalf("ULA Operation %s not found", ulaOp)
 	}
-	return ac
+
+	operationArgs := make([]reflect.Value, method.Type().NumIn())
+
+	if method.Type().NumIn() == 1 {
+		operationArgs[0] = reflect.ValueOf(memoryValue)
+	}
+	method.Call(operationArgs)
+
+}
+
+func (ula *ULA) ExecuteOpNOT() {
+	Ac.Value = ^Ac.Value
+}
+
+func (ula *ULA) ExecuteOpADD(value int) {
+	ula.Ac.Value += value
+}
+
+func (ula *ULA) ExecuteOpSUB(value int) {
+	ula.Ac.Value -= value
+}
+
+func (ula *ULA) ExecuteOpMUL(value int) {
+	ula.Ac.Value *= value
+}
+
+func (ula *ULA) ExecuteOpDIV(value int) {
+	ula.Ac.Value /= value
+}
+
+func (ula *ULA) ExecuteOpAND(value int) {
+	ula.Ac.Value = int(int8(ula.Ac.Value) & int8(value))
+}
+
+func (ula *ULA) ExecuteOpOR(value int) {
+	ula.Ac.Value = int(int8(ula.Ac.Value) | int8(value))
+}
+
+func (ula *ULA) ExecuteOpXOR(value int) {
+	ula.Ac.Value = int(int8(ula.Ac.Value) ^ int8(value))
 }
