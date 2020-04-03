@@ -1,6 +1,9 @@
 package decoder
 
-import "ph1-emulator/numbers"
+import (
+	"log"
+	"ph1-emulator/numbers"
+)
 
 // PH1Instruction constructor contendo mnemonico e se uma instrução
 // necessita de um endereço
@@ -32,5 +35,9 @@ var availableInstructions = map[string]PH1Instruction{
 func DecodeInstruction(opcodeInt int) (string, bool) {
 	opcodeHex := numbers.IntToHex(opcodeInt, 2)
 	instruction := availableInstructions[opcodeHex]
+
+	if instruction.name == "" {
+		log.Fatalf("Invalid instruction: none found for opCode %s", opcodeHex)
+	}
 	return instruction.name, instruction.hasAddress
 }
