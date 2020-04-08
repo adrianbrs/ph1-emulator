@@ -4,6 +4,7 @@ import (
 	"log"
 	"ph1-emulator/decoder"
 	"ph1-emulator/executor"
+	"ph1-emulator/logger"
 	"ph1-emulator/memory"
 	"ph1-emulator/regs"
 	"ph1-emulator/ula"
@@ -48,6 +49,7 @@ func (uc *unityControl) Start() {
 
 		uc.Execute(name, end)
 
+		logger.Info(name, end)
 		uc.Counter++
 	}
 }

@@ -58,6 +58,13 @@ func mapFileInfoToVirtualMemory(instructions []string) {
 	}
 }
 
+func logInfo() {
+	fmt.Print("\n \n")
+	fmt.Printf("AC: %02X\n", regs.RegAC.Value)
+	fmt.Printf("PC: %02X\n", regs.RegPC.GetValue())
+	fmt.Printf("Instructions: %d\n", control.UnityControl.Counter)
+}
+
 func main() {
 	fileName := getFileName()
 	instructionFile := readFile(fileName)
@@ -66,8 +73,5 @@ func main() {
 
 	control.UnityControl.Start()
 
-	log.Printf("AC: %02X", regs.RegAC.Value)
-	log.Printf("PC: %02X", regs.RegPC.GetValue())
-
-	log.Printf("Instructions: %d", control.UnityControl.Counter)
+	logInfo()
 }
