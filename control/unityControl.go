@@ -10,7 +10,7 @@ import (
 	"ph1-emulator/ula"
 )
 
-// unityControl => Unidade de Controle
+// unityControl => Virtualização da Unidade de Controle
 type unityControl struct {
 	Houte   bool
 	Counter int
@@ -21,10 +21,14 @@ func (uc *unityControl) GetNextInstruction() int {
 	return memory.VirtualMemory.GetValue(regs.RegPC.GetValue())
 }
 
+// Execute tenta encontrar e executar a função correspondendo
+// ao mnemônico de uma instrução
 func (uc *unityControl) Execute(opName string, value int) {
 	found := executor.ExecuteOperation(uc, opName, value) ||
 		executor.ExecuteOperation(ula.GetInstance(), opName, value)
 
+	// Verifica se a função da instrução não foi encontrada
+	// e para a execução retornando um erro
 	if !found {
 		log.Fatalf("Operation %s not found", opName)
 	}
@@ -33,13 +37,20 @@ func (uc *unityControl) Execute(opName string, value int) {
 
 // Start inicia a unidade de controle
 func (uc *unityControl) Start() {
+	// Loop enquanto não encontrar a operação de parada (HTL)
 	for !uc.Houte {
+
+		// Pega a próxima instrução a ser executada
 		nextInstruction := uc.GetNextInstruction()
+
+		// Decodifica a instrução encontrada
 		name, hasAddress := decoder.DecodeInstruction(nextInstruction)
 
-		// PC++
+		// Incrementa o Program Counter
 		regs.RegPC.Increment()
 
+		// Verifica se há endereço e pega através
+		// do valor da próxima instrução
 		var end int
 		if hasAddress {
 			// Endereço está na proxima instrução
@@ -47,10 +58,14 @@ func (uc *unityControl) Start() {
 			regs.RegPC.Increment()
 		}
 
+		// Executa a instrução encontrada após incrementar PC
 		uc.Execute(name, end)
 
-		logger.Info(name, end)
+		// Aumenta o contador de insturções executadas
 		uc.Counter++
+
+		// Exibe a notação RTL da operação atual
+		logger.LogRTL(name, end)
 	}
 }
 

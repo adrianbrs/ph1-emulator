@@ -1,77 +1,18 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"log"
-	"os"
 	"ph1-emulator/control"
-	"ph1-emulator/memory"
-	"ph1-emulator/numbers"
-	"ph1-emulator/regs"
+	"ph1-emulator/input"
+	"ph1-emulator/logger"
 )
 
-//getFileName le o input do usuario cujo conteudo eh o nome do arquivo de instrucoes
-//a ser aberto para leitura
-func getFileName() string {
-	var instruction string
-	fmt.Print("Digite o nome do arquivo desejado: ")
-	fmt.Scan(&instruction)
-	fmt.Println()
-
-	return instruction
-}
-
-//readFile lê o arquivo cujo nome foi inserido pelo usuario na funcao getFileName()
-func readFile(fileName string) []string {
-	file, err := os.Open(fileName)
-	if err != nil {
-		log.Fatal("Unable to open file")
-	}
-	defer file.Close()
-
-	//scaneia linha à linha o bloco de string lido e retorna uma lista de string com todas as linhas
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	return lines
-}
-
-//Recebe a lista de linhas lidas do arquivo e uma instancia de memoria virtual
-func mapFileInfoToVirtualMemory(instructions []string) {
-	var values = map[string]string{}
-
-	//le cada linha e mapeia o conteudo em endereco e  valor
-	for _, instruction := range instructions {
-		address := instruction[0:2]
-		value := instruction[3:5]
-		values[address] = value
-	}
-
-	//recebe esse map e converte em inteiro para popular os campos da memoria virtual
-	for addr, val := range values {
-		addr := numbers.HexToInt(addr, 8)
-		val := numbers.HexToInt(val, 8)
-		memory.VirtualMemory.SetValue(addr, val)
-	}
-}
-
-func logInfo() {
-	fmt.Print("\n \n")
-	fmt.Printf("AC: %02X\n", regs.RegAC.Value)
-	fmt.Printf("PC: %02X\n", regs.RegPC.GetValue())
-	fmt.Printf("Instructions: %d\n", control.UnityControl.Counter)
-}
-
 func main() {
-	fileName := getFileName()
-	instructionFile := readFile(fileName)
+	// Lê o arquivo de entrada contendo as instruções
+	input.ReadInstructionsFile("Input file: ")
 
-	mapFileInfoToVirtualMemory(instructionFile)
-
+	// Inicia a unidade central de processamento
 	control.UnityControl.Start()
 
-	logInfo()
+	// Exibe as informações do estado final dos registradores e memória
+	logger.LogFinalState()
 }

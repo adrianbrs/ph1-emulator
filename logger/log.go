@@ -2,58 +2,26 @@ package logger
 
 import (
 	"fmt"
-	"ph1-emulator/numbers"
+	"ph1-emulator/memory"
+	"ph1-emulator/regs"
 )
 
-//Info log information about memory execution
-func Info(opName string, value int) {
-	operationList := []string{"NOP", "LDR", "STR", "ADD", "SUB", "MUL",
-		"DIV", "NOT", "AND", "OR", "XOR", "JMP", "JEQ", "JG", "JL",
-		"HLT"}
+// LogFinalState exibe os valores atuais dos registradores,
+// e os valores atuais dos endereços modificados na memória
+func LogFinalState() {
+	// Log dos registradores
+	fmt.Println()
+	fmt.Println("Registers:")
+	fmt.Printf("AC %02X\n", regs.RegAC.Value)
+	fmt.Printf("PC %02X\n", regs.RegPC.GetValue())
+	fmt.Println()
 
-	for index, name := range operationList {
-		if opName == name {
-			executeLogInformation(index, value, name)
-		}
+	// Log da memória
+	fmt.Println("Memory:")
+
+	// Pega todos os endereços que foram modificados após a memória ser carregada
+	// e exibe os valores atuais correspondentes
+	for _, addr := range memory.VirtualMemory.GetChangedAddresses() {
+		fmt.Printf("%02X %02X\n", addr, memory.VirtualMemory.GetValue(addr))
 	}
-}
-
-func executeLogInformation(index int, value int, name string) {
-	opSymbol := operationSymbol[name]
-	hexValue := numbers.IntToHex(value, 2)
-
-	switch index {
-	case 0:
-		fmt.Printf("NOP %s\n", hexValue)
-	case 1:
-		fmt.Printf("LDR %s ; AC <- MEM[%s]\n", hexValue, hexValue)
-	case 2:
-		fmt.Printf("STR %s ; MEM[%s] <- AC\n", hexValue, hexValue)
-	case 3, 4, 5, 6:
-		fmt.Printf("%s %s ; AC <- AC %s MEM[%s]\n", name, hexValue, opSymbol, hexValue)
-	case 7:
-		fmt.Printf("NOT %s ; AC <- !AC\n", hexValue)
-	case 8, 9, 10:
-		fmt.Printf("%s %s ; AC <- AC %s MEM[%s]\n", name, hexValue, opSymbol, hexValue)
-	case 11:
-		fmt.Printf("JMP %s ; PC <- MEM[%s]\n", hexValue, hexValue)
-	case 12, 13, 14:
-		fmt.Printf("%s %s ; IF AC %s 0 PC <- MEM[%s]\n", name, hexValue, opSymbol, hexValue)
-	case 15:
-		fmt.Println("HLT")
-	}
-
-}
-
-var operationSymbol = map[string]string{
-	"ADD": "+",
-	"SUB": "-",
-	"MUL": "*",
-	"DIV": "/",
-	"AND": "&",
-	"OR":  "|",
-	"XOR": "^",
-	"JEQ": "==",
-	"JG":  ">=",
-	"JL":  "<=",
 }

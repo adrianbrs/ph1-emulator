@@ -8,17 +8,42 @@ import (
 
 // virtualMemory representação virtual de uma memória
 type virtualMemory struct {
-	Data map[int]int
+	Data           map[int]int
+	loaded         bool
+	runtimeChanges []int
 }
 
 // SetValue define o valor de um endereço
 func (mem *virtualMemory) SetValue(addr int, value int) {
-	mem.Data[parseAddr(addr)] = parseWord(value)
+	addr = parseAddr(addr)
+	mem.Data[addr] = parseWord(value)
+
+	// Adiciona o endereço na lista de endereços modificados
+	// caso a memória já tenha sido carregada
+	if mem.loaded {
+		mem.runtimeChanges = append(mem.runtimeChanges, addr)
+	}
 }
 
 // GetValue resgata um valor presente em um endereço
 func (mem *virtualMemory) GetValue(addr int) int {
 	return mem.Data[parseAddr(addr)]
+}
+
+// SetLoaded define que a memória virtual foi carregada com sucesso
+func (mem *virtualMemory) SetLoaded() {
+	mem.loaded = true
+}
+
+// IsLoaded retorna se os valores do programa ja foram carregados
+func (mem *virtualMemory) IsLoaded() bool {
+	return mem.loaded
+}
+
+// GetChangedAddresses retorna uma lista com os endereços de memória
+// que forma modificados
+func (mem *virtualMemory) GetChangedAddresses() []int {
+	return mem.runtimeChanges
 }
 
 // VirtualMemory => Memória Virtual
@@ -28,6 +53,8 @@ var VirtualMemory = newMemory()
 func newMemory() (mem *virtualMemory) {
 	mem = &virtualMemory{
 		Data: make(map[int]int),
+		// changedAddr: []int{},
+		loaded: false,
 	}
 
 	// Preenche a memória com 0
