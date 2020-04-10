@@ -17,43 +17,43 @@ func GetInstance() *ULA {
 
 //ExecuteOpNOT execute bitwise NOT operation
 func (ula *ULA) ExecuteOpNOT() {
-	regs.RegAC.Value = int(^int8(regs.RegAC.Value))
+	regs.RegAC.SetValue(int(^int8(regs.RegAC.GetValue())))
 }
 
 //ExecuteOpADD execute sum operation
 func (ula *ULA) ExecuteOpADD(addr int) {
-	regs.RegAC.Value += memory.VirtualMemory.GetValue(addr)
+	regs.RegAC.SetValue(regs.RegAC.GetWordValue() + memory.VirtualMemory.GetWordValue(addr))
 }
 
 //ExecuteOpSUB execute subtraction operation
 func (ula *ULA) ExecuteOpSUB(addr int) {
-	regs.RegAC.Value -= memory.VirtualMemory.GetValue(addr)
+	regs.RegAC.SetValue(regs.RegAC.GetWordValue() - memory.VirtualMemory.GetWordValue(addr))
 }
 
 //ExecuteOpMUL execute multiplication operation
 func (ula *ULA) ExecuteOpMUL(addr int) {
-	regs.RegAC.Value *= memory.VirtualMemory.GetValue(addr)
+	regs.RegAC.SetValue(regs.RegAC.GetWordValue() * memory.VirtualMemory.GetWordValue(addr))
 }
 
 //ExecuteOpDIV execute division operation
 func (ula *ULA) ExecuteOpDIV(addr int) {
-	regs.RegAC.Value /= memory.VirtualMemory.GetValue(addr)
+	regs.RegAC.SetValue(regs.RegAC.GetWordValue() / memory.VirtualMemory.GetWordValue(addr))
 }
 
 //ExecuteOpAND execute bitwise AND operation
 func (ula *ULA) ExecuteOpAND(addr int) {
 	value := memory.VirtualMemory.GetValue(addr)
-	regs.RegAC.Value = int(int8(regs.RegAC.Value) & int8(value))
+	regs.RegAC.SetValue(int(int8(regs.RegAC.GetValue()) & int8(value)))
 }
 
 //ExecuteOpOR execute bitwise OR operation
 func (ula *ULA) ExecuteOpOR(addr int) {
 	value := memory.VirtualMemory.GetValue(addr)
-	regs.RegAC.Value = int(int8(regs.RegAC.Value) | int8(value))
+	regs.RegAC.SetValue(int(int8(regs.RegAC.GetValue()) | int8(value)))
 }
 
 //ExecuteOpXOR execute bitwise XOR operation
 func (ula *ULA) ExecuteOpXOR(addr int) {
 	value := memory.VirtualMemory.GetValue(addr)
-	regs.RegAC.Value = int(int8(regs.RegAC.Value) ^ int8(value))
+	regs.RegAC.SetValue(int(int8(regs.RegAC.GetValue()) ^ int8(value)))
 }
