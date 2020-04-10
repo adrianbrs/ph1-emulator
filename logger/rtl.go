@@ -15,8 +15,8 @@ var operationSymbol = map[string]string{
 	"OR":  "|",
 	"XOR": "^",
 	"JEQ": "==",
-	"JG":  ">=",
-	"JL":  "<=",
+	"JG":  ">",
+	"JL":  "<",
 }
 
 // Lista com as operações válidas para a notação RTL
@@ -36,7 +36,7 @@ func LogRTL(opName string, value int) {
 // Exibe a notação RTL
 func executeLogInformation(index int, value int, name string) {
 	opSymbol := operationSymbol[name]
-	hexValue := numbers.IntToHex(value, 2)
+	hexValue := numbers.IntToHex(value)
 
 	switch index {
 	case 0:
@@ -52,9 +52,9 @@ func executeLogInformation(index int, value int, name string) {
 	case 8, 9, 10:
 		fmt.Printf("%s %s ; AC <- AC %s MEM[%s]\n", name, hexValue, opSymbol, hexValue)
 	case 11:
-		fmt.Printf("JMP %s ; PC <- MEM[%s]\n", hexValue, hexValue)
+		fmt.Printf("JMP %s ; PC <- %s\n", hexValue, hexValue)
 	case 12, 13, 14:
-		fmt.Printf("%s %s ; IF AC %s 0 PC <- MEM[%s]\n", name, hexValue, opSymbol, hexValue)
+		fmt.Printf("%s %s ; Se AC%s0 então PC <- %s\n", name, hexValue, opSymbol, hexValue)
 	case 15:
 		fmt.Println("HLT")
 	}
