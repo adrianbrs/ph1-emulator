@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"ph1-emulator/config"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
 )
@@ -14,13 +15,13 @@ import (
 func readFileName(msg string) string {
 	var fileName string
 	fmt.Print(msg)
-	fmt.Scan(&fileName)
+	fmt.Scanln(&fileName)
 	fmt.Println()
 	return fileName
 }
 
-// readFileContent lê os dados do arquivo cujo nome foi inserido pelo usuario
-func readFileContent(fileName string) []string {
+// ReadFileContent lê os dados do arquivo cujo nome foi inserido pelo usuario
+func ReadFileContent(fileName string) []string {
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatalf("Unable to open file: %s", fileName)
@@ -36,28 +37,34 @@ func readFileContent(fileName string) []string {
 	return lines
 }
 
-// Recebe uma lista de linhas contendo endereços de memória e instruções
+// MapInstructionsToMemory recebe uma lista de linhas contendo endereços de memória e instruções
 // para então mapeá-las para a memória virtual
-func mapInstructionsToMemory(instructions []string) {
+func MapInstructionsToMemory(instructions []string) {
 	// le cada linha e mapeia o conteudo em endereco e  valor
 	for _, instruction := range instructions {
-		// Pega o endereço de memória em que a instrução vai ser guardada
-		address := numbers.HexToInt(instruction[0:2], 8)
+		var address, value string
 
-		// Pega o valor, em hexadecimal, correspondente a uma instrução
-		value := numbers.HexToInt(instruction[3:5], 8)
+		// Pega o endereço de memória e a instrução
+		fmt.Sscanf(instruction, "%s %s", &address, &value)
 
 		// Armazena o valor no endereço de memória
-		memory.VirtualMemory.SetValue(address, value)
+		memory.VirtualMemory.SetValue(
+			numbers.HexToInt(address, config.AddrLength),
+			numbers.HexToInt(value, config.WordLength))
 	}
 
 	// Define o estado da memória como carregada
 	memory.VirtualMemory.SetLoaded()
 }
 
-// ReadInstructionsFile lê o arquivo de entrada contendo as instruções e mapeia
+// RequestInput lê o arquivo de entrada contendo as instruções e mapeia
 // as instruções na memória
-func ReadInstructionsFile(inputMessage string) {
-	fileName := readFileName(inputMessage)
-	mapInstructionsToMemory(readFileContent(fileName))
+func RequestInput() {
+	fileName := readFileName("Input file: ")
+
+	if fileName == "" {
+		log.Fatal("File name must not be empty")
+	}
+
+	MapInstructionsToMemory(ReadFileContent(fileName))
 }

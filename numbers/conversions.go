@@ -3,6 +3,7 @@ package numbers
 import (
 	"fmt"
 	"log"
+	"ph1-emulator/config"
 	"strconv"
 )
 
@@ -16,6 +17,6 @@ func HexToInt(str string, bits int) int {
 }
 
 // IntToHex converte inteiro para hexadecimal (string)
-func IntToHex(value int, digits int) string {
-	return fmt.Sprintf(("%0" + fmt.Sprintf("%d", digits) + "X"), value)
+func IntToHex(value int) string {
+	return fmt.Sprintf(("%0" + fmt.Sprintf("%d", config.HexDigits) + "X"), uint8(value))
 }

@@ -8,11 +8,11 @@ import (
 
 func main() {
 	// Lê o arquivo de entrada contendo as instruções
-	input.ReadInstructionsFile("Input file: ")
+	input.RequestInput()
 
 	// Inicia a unidade central de processamento
 	control.UnityControl.Start()
 
 	// Exibe as informações do estado final dos registradores e memória
-	logger.LogFinalState()
+	logger.LogFinalState(control.UnityControl.Counter)
 }

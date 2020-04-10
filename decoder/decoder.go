@@ -33,7 +33,7 @@ var availableInstructions = map[string]PH1Instruction{
 
 // DecodeInstruction decodifica uma instrução pelo seu opcode
 func DecodeInstruction(opcodeInt int) (string, bool) {
-	opcodeHex := numbers.IntToHex(opcodeInt, 2)
+	opcodeHex := numbers.IntToHex(opcodeInt)
 	instruction := availableInstructions[opcodeHex]
 
 	if instruction.name == "" {

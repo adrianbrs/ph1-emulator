@@ -10,12 +10,12 @@ func (uc *unityControl) ExecuteOpNOP() {}
 
 //ExecuteOpLDR execute a load operation
 func (uc *unityControl) ExecuteOpLDR(value int) {
-	regs.RegAC.Value = memory.VirtualMemory.GetValue(value)
+	regs.RegAC.SetValue(memory.VirtualMemory.GetWordValue(value))
 }
 
 //ExecuteOpSTR execute a store operation
 func (uc *unityControl) ExecuteOpSTR(value int) {
-	memory.VirtualMemory.SetValue(value, regs.RegAC.Value)
+	memory.VirtualMemory.SetValue(value, regs.RegAC.GetValue())
 }
 
 //ExecuteOpJMP execute a jump operation
@@ -25,21 +25,21 @@ func (uc *unityControl) ExecuteOpJMP(value int) {
 
 //ExecuteOpJEQ execute a conditional equals operation
 func (uc *unityControl) ExecuteOpJEQ(value int) {
-	if regs.RegAC.Value == 0 {
+	if regs.RegAC.GetWordValue() == 0 {
 		regs.RegPC.SetValue(value)
 	}
 }
 
 //ExecuteOpJG execute a conditional bigger operation
 func (uc *unityControl) ExecuteOpJG(value int) {
-	if regs.RegAC.Value > 0 {
+	if regs.RegAC.GetWordValue() > 0 {
 		regs.RegPC.SetValue(value)
 	}
 }
 
 //ExecuteOpJL execute a conditional lower operation
 func (uc *unityControl) ExecuteOpJL(value int) {
-	if regs.RegAC.Value < 0 {
+	if regs.RegAC.GetWordValue() < 0 {
 		regs.RegPC.SetValue(value)
 	}
 }
