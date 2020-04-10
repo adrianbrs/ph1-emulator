@@ -1,0 +1,47 @@
+00 C0
+01 30
+02 10
+03 40
+04 20
+05 80
+06 10
+07 41
+08 30
+09 43
+0A 20
+0B 41
+0C 10
+0D 3F
+0E 40
+0F 44
+10 20
+11 3F
+12 E0
+13 2A
+14 B0
+15 20
+20 10
+21 41
+22 20
+23 05
+24 B0
+25 02
+2A F0
+30 10
+31 42
+32 40
+33 41
+34 20
+35 3F
+36 B0
+37 20
+38
+39
+3A
+3B
+3C
+40 05 ; Valor a ser utilizado para preencher
+41 45 ; Endereço para começar a preencher
+42 7F ; Endereço para terminar de preencher (max 7F)
+43 01 ; Intervalo entre um endereço e outro
+44 01 ; Numero reduzido da quantidade de endereços

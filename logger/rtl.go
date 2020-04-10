@@ -40,7 +40,7 @@ func executeLogInformation(index int, value int, name string) {
 
 	switch index {
 	case 0:
-		fmt.Printf("NOP %s\n", hexValue)
+		fmt.Printf("NOP\n")
 	case 1:
 		fmt.Printf("LDR %s ; AC <- MEM[%s]\n", hexValue, hexValue)
 	case 2:
@@ -48,7 +48,7 @@ func executeLogInformation(index int, value int, name string) {
 	case 3, 4, 5, 6:
 		fmt.Printf("%s %s ; AC <- AC %s MEM[%s]\n", name, hexValue, opSymbol, hexValue)
 	case 7:
-		fmt.Printf("NOT %s ; AC <- !AC\n", hexValue)
+		fmt.Printf("NOT    ; AC <- !AC\n")
 	case 8, 9, 10:
 		fmt.Printf("%s %s ; AC <- AC %s MEM[%s]\n", name, hexValue, opSymbol, hexValue)
 	case 11:

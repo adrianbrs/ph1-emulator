@@ -8,6 +8,7 @@ import (
 	"ph1-emulator/config"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
+	"strings"
 )
 
 // readFileName lê o input do usuario cujo conteudo eh o nome do arquivo de instrucoes
@@ -32,7 +33,10 @@ func ReadFileContent(fileName string) []string {
 	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+		text := strings.Trim(scanner.Text(), " ")
+		if len(text) > 0 {
+			lines = append(lines, text)
+		}
 	}
 	return lines
 }
@@ -48,9 +52,11 @@ func MapInstructionsToMemory(instructions []string) {
 		fmt.Sscanf(instruction, "%s %s", &address, &value)
 
 		// Armazena o valor no endereço de memória
-		memory.VirtualMemory.SetValue(
-			numbers.HexToInt(address, config.AddrLength),
-			numbers.HexToInt(value, config.WordLength))
+		if len(address) > 0 && len(value) > 0 {
+			memory.VirtualMemory.SetValue(
+				numbers.HexToInt(address, config.AddrLength),
+				numbers.HexToInt(value, config.WordLength))
+		}
 	}
 
 	// Define o estado da memória como carregada

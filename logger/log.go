@@ -5,6 +5,7 @@ import (
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
 	"ph1-emulator/regs"
+	"sort"
 )
 
 // LogFinalState exibe os valores atuais dos registradores,
@@ -26,7 +27,15 @@ func LogFinalState(executionCount int) {
 
 	// Pega todos os endereços que foram modificados após a memória ser carregada
 	// e exibe os valores atuais correspondentes
-	for addr, val := range memory.VirtualMemory.GetLastChanges() {
-		fmt.Printf("%s %s\n", numbers.IntToHex(addr), numbers.IntToHex(val))
+	// Ordena os endereços
+	changes := memory.VirtualMemory.GetLastChanges()
+	addresses := make([]int, 0, len(changes))
+	for addr := range changes {
+		addresses = append(addresses, addr)
+	}
+	sort.Ints(addresses)
+
+	for _, addr := range addresses {
+		fmt.Printf("%s %s\n", numbers.IntToHex(addr), numbers.IntToHex(changes[addr]))
 	}
 }
