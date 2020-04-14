@@ -13,7 +13,7 @@ import (
 // unityControl => Virtualização da Unidade de Controle
 type unityControl struct {
 	Houte   bool
-	Counter int
+	Counter int64
 }
 
 // GetNextInstruction pega a proxima instrução na memória
@@ -21,7 +21,7 @@ func (uc *unityControl) GetNextInstruction() int {
 	return memory.VirtualMemory.GetValue(regs.RegPC.GetValue())
 }
 
-// Execute tenta encontrar e executar a função correspondendo
+// Execute tenta encontrar e executar a função correspondente
 // ao mnemônico de uma instrução
 func (uc *unityControl) Execute(opName string, value int) {
 	found := executor.ExecuteOperation(uc, opName, value) ||
@@ -36,7 +36,7 @@ func (uc *unityControl) Execute(opName string, value int) {
 }
 
 // Start inicia a unidade de controle
-func (uc *unityControl) Start() {
+func (uc *unityControl) Start(halt chan bool) {
 	// Loop enquanto não encontrar a operação de parada (HTL)
 	for !uc.Houte {
 
@@ -55,6 +55,8 @@ func (uc *unityControl) Start() {
 		if hasAddress {
 			// Endereço está na proxima instrução
 			end = uc.GetNextInstruction()
+			// Incrementa o Program Counter novamente pois essa instrucao
+			// usou dois bits
 			regs.RegPC.Increment()
 		}
 
@@ -67,6 +69,9 @@ func (uc *unityControl) Start() {
 		// Exibe a notação RTL da operação atual
 		logger.LogRTL(name, end)
 	}
+
+	// Envia o sinal de término de execução (HLT)
+	halt <- true
 }
 
 // NewUnityControl retorna uma nova instância da unidade de controle

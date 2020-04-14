@@ -10,7 +10,7 @@ import (
 
 // LogFinalState exibe os valores atuais dos registradores,
 // e os valores atuais dos endereços modificados na memória
-func LogFinalState(executionCount int) {
+func LogFinalState(executionCount int64) {
 	// Log do número de execuções
 	fmt.Println()
 	fmt.Printf("%d instructions executed\n", executionCount)
