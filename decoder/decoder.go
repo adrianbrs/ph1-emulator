@@ -12,6 +12,7 @@ type PH1Instruction struct {
 	hasAddress bool
 }
 
+// Mapper de valor hexadecimal para o opCode(e se há endereço) respectivo
 var availableInstructions = map[string]PH1Instruction{
 	"00": {name: "NOP", hasAddress: false},
 	"10": {name: "LDR", hasAddress: true},
