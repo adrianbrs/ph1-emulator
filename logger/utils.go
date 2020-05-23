@@ -3,7 +3,7 @@ package logger
 // GetRtlExpression mapeia uma operação para seu respectivo RTL
 var GetRtlExpression = map[string]string{
 	"ULA":  "%s %s ; AC <- AC %s MEM[%s]",
-	"COND": "%s %s ; Se AC%0 então PC <- %s",
+	"COND": "%s %s ; Se AC%s0 então PC <- %s",
 	"NOP":  "NOP",
 	"STR":  "STR %s ; MEM[%s] <- AC",
 	"NOT":  "NOT    ; AC <- !AC",
