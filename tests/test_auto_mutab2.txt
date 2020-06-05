@@ -1,10 +1,10 @@
-00 10
-01 05
-02 30
-03 F0
-04 20
-05 02
-06 F0
+00 10 ; Instrução LDR
+01 05 ; Está tentando carregar uma Instrução ao invés de um endereço
+02 30 ; Não será executado
+03 F0 ; Não será executado
+04 20 ; Não será executado
+05 02 ; Não será executado
+06 F0 ; Não será executado
 80 00
 81 05
 82 02

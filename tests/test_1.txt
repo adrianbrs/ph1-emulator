@@ -1,10 +1,10 @@
-00 10
-01 80
-02 70
-03 80
-04 81
-05 20
-06 81
-07 F0
+00 10  ; Instrução LDR
+01 80  ; Carrega na memória o valor contido no endereço 80
+02 70  ; Instrução NOT
+03 80  ; Instrução AND
+04 81  ; AND bit-a-bit do valor contido no endereço 81 com a memória
+05 20  ; Instrução STR
+06 81  ; Guarda no endereço 81 o valor contido na memória
+07 F0  ; Instrução HLT
 80 B5
 81 57

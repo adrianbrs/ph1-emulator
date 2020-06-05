@@ -1,11 +1,11 @@
-00 10
-01 80
-02 20
-03 81
-04 10
-05 82
-06 20
-07 80
-08 B0
-09 00
-0A F0
+00 10 ; Instrução LDR
+01 80 ; Carregado na memória o valor contido no endereço 80
+02 20 ; Instrução STR
+03 81 ; Guarda o valor contido na memória no endereço 81
+04 10 ; Instrução LDR
+05 82 ; Carregado na memória o valor contido no endereço 82
+06 20 ; Instrução STR
+07 80 ; Guarda o valor contido na memória no endereço 80
+08 B0 ; Instrução JMP
+09 00 ; Desvia para o endereço 00
+0A F0 ; Instrução HLT
