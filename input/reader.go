@@ -54,11 +54,15 @@ func MapInstructionsToMemory(instructions []string) {
 
 		// Pega o endereço de memória e a instrução de acordo com a posição no
 		// arquivo. Exemplo: 02 00
-		fmt.Sscanf(instruction, "%s %s", &address, &value)
+		fmt.Sscanf(instruction, "%2s %2s", &address, &value)
+
+		// Normaliza os valores para evitar erros na verificação abaixo
+		address = strings.Trim(address, " ")
+		value = strings.Trim(value, " ")
 
 		// Se houver valores converte para uint16 e atribui
 		// na memória virtual
-		if len(address) > 0 && len(value) > 0 {
+		if len(address) == 2 && len(value) == 2 {
 			memory.VirtualMemory.SetValue(
 				numbers.HexToInt(address, config.AddrLength),
 				numbers.HexToInt(value, config.WordLength))
