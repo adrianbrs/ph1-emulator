@@ -1,11 +1,11 @@
-00 10
-01 80
-02 C0
-03 08
-04 40
-05 81
-06 B0
-07 02
-08 F0
+00 10  ; Instrução LDR
+01 80  ; Carrega na memória o valor contido no endereço 80
+02 C0  ; Instrução JEQ
+03 08  ; Desvia para o endereço 8 caso o valor contido na memória seja igual a zero
+04 40  ; Instrução SUB
+05 81  ; Subtrai o valor contido na memória pelo valor contido no endereço 81
+06 B0  ; Instrução JMP
+07 02  ; Desvia para o endereço 02
+08 F0  ; Instrução HLT
 80 70
 81 01

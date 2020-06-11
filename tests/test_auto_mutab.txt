@@ -1,40 +1,40 @@
-00 C0
-01 30
-02 10
-03 40
-04 20
-05 80
-06 10
-07 41
-08 30
-09 43
-0A 20
-0B 41
-0C 10
-0D 3F
-0E 40
-0F 44
-10 20
-11 3F
-12 E0
-13 2A
-14 B0
-15 20
-20 10
-21 41
-22 20
-23 05
-24 B0
-25 02
-2A F0
-30 10
-31 42
-32 40
-33 41
-34 20
-35 3F
-36 B0
-37 20
+00 C0  ; Instrução JEQ
+01 30  
+02 10  
+03 40  
+04 20 
+05 80 
+06 10 
+07 41 
+08 30  ; Instrução ADD
+09 43  ; Tenta passar uma Instrução como endereço
+0A 20  ; Não será executado
+0B 41  ; Não será executado
+0C 10  ; Não será executado
+0D 3F  ; Não será executado
+0E 40  ; Não será executado
+0F 44  ; Não será executado
+10 20  ; Não será executado
+11 3F  ; Não será executado
+12 E0  ; Não será executado
+13 2A  ; Não será executado
+14 B0  ; Não será executado
+15 20  ; Não será executado
+20 10  ; Não será executado
+21 41  ; Não será executado
+22 20  ; Não será executado
+23 05  ; Não será executado
+24 B0  ; Não será executado
+25 02  ; Não será executado
+2A F0  ; Não será executado
+30 10  ; Não será executado
+31 42  ; Não será executado
+32 40  ; Não será executado
+33 41  ; Não será executado
+34 20  ; Não será executado
+35 3F  ; Não será executado
+36 B0  ; Não será executado
+37 20  ; Não será executado
 38
 39
 3A

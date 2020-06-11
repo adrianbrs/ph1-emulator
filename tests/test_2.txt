@@ -1,14 +1,14 @@
-00 10
-01 80
-02 50
-03 81
-04 20
-05 81
-06 A0
-07 82
-08 20
-09 82
-0A F0
+00 10  ; Instrução LDR
+01 80  ; Carrega na memória o valor contido no endereço 80
+02 50  ; Instrução MUL
+03 81  ; Multiplica o valor contido no endereço 81 com o valor contido na memória
+04 20  ; Instrução STR
+05 81  ; Guarda no endereço 81 o valor contido na memória
+06 A0  ; Instrução XOR
+07 82  ; Faz um XOR bit-a-bit no valor contido no endereço 82
+08 20  ; Instrução STR
+09 82  ; Guarda no endereço 82 o valor contido na memória
+0A F0  ; Instrução HLT
 80 19
 81 FC
 82 66

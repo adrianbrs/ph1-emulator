@@ -23,21 +23,25 @@ func readFileName(msg string) string {
 
 // ReadFileContent lê os dados do arquivo cujo nome foi inserido pelo usuario
 func ReadFileContent(fileName string) []string {
+	// Abre o arquivo como um bloco de string com todo o conteudo
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatalf("Unable to open file: %s", fileName)
 	}
 	defer file.Close()
 
-	//scaneia linha à linha o bloco de string lido e retorna uma lista de string com todas as linhas
 	var lines []string
+	// Cria um novo Buffer para ler linha por linha do bloco
 	scanner := bufio.NewScanner(file)
+	// For de iteração, para cada linha atribui a uma variavel text removendo os espacos(se tiver)
+	// do inicio e do fim da linha. Se houver conteudo atribui para a lista
 	for scanner.Scan() {
 		text := strings.Trim(scanner.Text(), " ")
 		if len(text) > 0 {
 			lines = append(lines, text)
 		}
 	}
+	// Retorna uma lista de string contendo todas as linhas do arquivo por ordem de entrada
 	return lines
 }
 
@@ -48,11 +52,17 @@ func MapInstructionsToMemory(instructions []string) {
 	for _, instruction := range instructions {
 		var address, value string
 
-		// Pega o endereço de memória e a instrução
-		fmt.Sscanf(instruction, "%s %s", &address, &value)
+		// Pega o endereço de memória e a instrução de acordo com a posição no
+		// arquivo. Exemplo: 02 00
+		fmt.Sscanf(instruction, "%2s %2s", &address, &value)
 
-		// Armazena o valor no endereço de memória
-		if len(address) > 0 && len(value) > 0 {
+		// Normaliza os valores para evitar erros na verificação abaixo
+		address = strings.Trim(address, " ")
+		value = strings.Trim(value, " ")
+
+		// Se houver valores converte para uint16 e atribui
+		// na memória virtual
+		if len(address) == 2 && len(value) == 2 {
 			memory.VirtualMemory.SetValue(
 				numbers.HexToInt(address, config.AddrLength),
 				numbers.HexToInt(value, config.WordLength))
@@ -77,6 +87,8 @@ func RequestInput() {
 	if fileName == "" {
 		log.Fatal("File name must not be empty")
 	}
-
+	// Chama o mapper de instruções onde verifica os valores e atribui na memória
+	// passando como parâmetro a função de leitura do arquivo que retorna uma lista
+	// de string contendo as linhas do arquivo
 	MapInstructionsToMemory(ReadFileContent(fileName))
 }
