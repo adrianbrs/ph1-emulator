@@ -15,6 +15,11 @@ por Prof. Marcos José Brusso.
 
 ---
 
+### Montador da arquitetura PH1:
+- [PH1 assembler](https://github.com/adrianbrs/ph1-assembly)
+
+---
+
 ### Alunos:
 - [Adrian Cerbaro](https://www.linkedin.com/in/adrian-cerbaro/)
 - [Luiz Gallas](https://www.linkedin.com/in/luiz-gallas/)
