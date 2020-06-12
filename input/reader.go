@@ -16,7 +16,15 @@ import (
 func readFileName(msg string) string {
 	var fileName string
 	fmt.Print(msg)
-	fmt.Scanln(&fileName)
+
+	// Verifica se o nome do arquivo foi passado nos argumentos
+	if len(os.Args) > 1 {
+		fileName = os.Args[1]
+		fmt.Println(fileName)
+	} else {
+		fmt.Scanln(&fileName)
+	}
+
 	fmt.Println()
 	return fileName
 }
@@ -76,13 +84,8 @@ func MapInstructionsToMemory(instructions []string) {
 // RequestInput lê o arquivo de entrada contendo as instruções e mapeia
 // as instruções na memória
 func RequestInput() {
-	// Verifica se o nome do arquivo foi passado nos argumentos
-	var fileName string
-	if len(os.Args) > 1 {
-		fileName = os.Args[1]
-	} else {
-		fileName = readFileName("Input file: ")
-	}
+	// Lê o nome do arquivo
+	fileName := readFileName("Input file: ")
 
 	if fileName == "" {
 		log.Fatal("File name must not be empty")
