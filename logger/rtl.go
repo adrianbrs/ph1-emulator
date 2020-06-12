@@ -36,7 +36,7 @@ func handleRtlExpression(name string, opSymbol string, hexValue string) string {
 	// de mensagem
 	if simplifiedName == "ULA" || simplifiedName == "COND" {
 		filledRtl = fmt.Sprintf(rtlExpression, name, hexValue, opSymbol, hexValue)
-	} else if simplifiedName == "NOP" || simplifiedName == "HLT" {
+	} else if simplifiedName == "NOP" || simplifiedName == "HLT" || simplifiedName == "NOT" {
 		filledRtl = fmt.Sprintf(rtlExpression)
 	} else {
 		filledRtl = fmt.Sprintf(rtlExpression, hexValue, hexValue)
