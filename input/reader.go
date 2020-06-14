@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"ph1-emulator/config"
+	config "ph1-emulator/constants"
 	"ph1-emulator/memory"
 	"ph1-emulator/numbers"
 	"strings"
@@ -34,8 +34,10 @@ func ReadFileContent(fileName string) []string {
 	// Abre o arquivo como um bloco de string com todo o conteudo
 	file, err := os.Open(fileName)
 	if err != nil {
-		log.Fatalf("Unable to open file: %s", fileName)
+		log.Fatalf(config.UnableToOpenFile, fileName)
 	}
+	// defer é uma função do Go que irá executar uma instrução após a executação de todo o bloco em que
+	// está inserido, no caso a função ReadFileContent
 	defer file.Close()
 
 	var lines []string
@@ -44,7 +46,7 @@ func ReadFileContent(fileName string) []string {
 	// For de iteração, para cada linha atribui a uma variavel text removendo os espacos(se tiver)
 	// do inicio e do fim da linha. Se houver conteudo atribui para a lista
 	for scanner.Scan() {
-		text := strings.Trim(scanner.Text(), " ")
+		text := strings.Trim(scanner.Text(), config.Space)
 		if len(text) > 0 {
 			lines = append(lines, text)
 		}
@@ -65,8 +67,8 @@ func MapInstructionsToMemory(instructions []string) {
 		fmt.Sscanf(instruction, "%2s %2s", &address, &value)
 
 		// Normaliza os valores para evitar erros na verificação abaixo
-		address = strings.Trim(address, " ")
-		value = strings.Trim(value, " ")
+		address = strings.Trim(address, config.Space)
+		value = strings.Trim(value, config.Space)
 
 		// Se houver valores converte para uint16 e atribui
 		// na memória virtual
@@ -85,10 +87,10 @@ func MapInstructionsToMemory(instructions []string) {
 // as instruções na memória
 func RequestInput() {
 	// Lê o nome do arquivo
-	fileName := readFileName("Input file: ")
+	fileName := readFileName(config.InputFile)
 
-	if fileName == "" {
-		log.Fatal("File name must not be empty")
+	if fileName == config.Empty {
+		log.Fatal(config.FileNameEmpty)
 	}
 	// Chama o mapper de instruções onde verifica os valores e atribui na memória
 	// passando como parâmetro a função de leitura do arquivo que retorna uma lista

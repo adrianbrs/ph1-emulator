@@ -2,6 +2,7 @@ package control
 
 import (
 	"log"
+	c "ph1-emulator/constants"
 	"ph1-emulator/decoder"
 	"ph1-emulator/executor"
 	"ph1-emulator/logger"
@@ -30,7 +31,7 @@ func (uc *unityControl) Execute(opName string, value int) {
 	// Verifica se a função da instrução não foi encontrada
 	// e para a execução retornando um erro
 	if !found {
-		log.Fatalf("Operation %s not found", opName)
+		log.Fatalf(c.OperationNotFound, opName)
 	}
 
 }
@@ -74,13 +75,8 @@ func (uc *unityControl) Start(halt chan bool) {
 	halt <- true
 }
 
-// NewUnityControl retorna uma nova instância da unidade de controle
-func newUnityControl() *unityControl {
-	return &unityControl{
-		Houte:   false,
-		Counter: 0,
-	}
-}
-
 // UnityControl => Unidade de Controle
-var UnityControl = newUnityControl()
+var UnityControl = &unityControl{
+	Houte:   false,
+	Counter: 0,
+}

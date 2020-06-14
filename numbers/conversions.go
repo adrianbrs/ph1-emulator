@@ -3,7 +3,7 @@ package numbers
 import (
 	"fmt"
 	"log"
-	"ph1-emulator/config"
+	config "ph1-emulator/constants"
 	"strconv"
 )
 

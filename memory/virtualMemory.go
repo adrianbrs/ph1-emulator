@@ -2,6 +2,7 @@ package memory
 
 import (
 	"log"
+	c "ph1-emulator/constants"
 	"ph1-emulator/numbers"
 )
 
@@ -21,7 +22,7 @@ func (mem *virtualMemory) SetValue(addr int, value int) {
 	if mem.loaded {
 		// Verifica se o endereco nao eh uma instrucao
 		if addr < 80 {
-			log.Fatal("Can't change instruction memory area during runtime")
+			log.Fatal(c.RuntimeChangeMemoryArea)
 		}
 		// Adiciona o valor à lista de valores modificados da memória
 		mem.runtimeChanges = append(mem.runtimeChanges, addr)
@@ -68,8 +69,7 @@ var VirtualMemory = newMemory()
 // New retorna uma nova instância da memória virtual
 func newMemory() (mem *virtualMemory) {
 	mem = &virtualMemory{
-		Data: make(map[int]int),
-		// changedAddr: []int{},
+		Data:   make(map[int]int),
 		loaded: false,
 	}
 
@@ -86,7 +86,7 @@ func newMemory() (mem *virtualMemory) {
 func parseAddr(addr int) int {
 	res, err := numbers.ValidateAddress(addr)
 	if err != nil {
-		log.Fatalf("virtualMemory address overflow: %d", addr)
+		log.Fatalf(c.VirtualMemoryAddressOverflow, addr)
 	}
 	return res
 }
@@ -97,7 +97,7 @@ func parseWord(val int) int {
 	res, err := numbers.ValidateWord(val)
 
 	if err != nil {
-		log.Fatalf("virtualMemory word length overflow: %d", val)
+		log.Fatalf(c.VirtualMemoryWordOverflow, val)
 	}
 	return res
 }

@@ -2,23 +2,19 @@ package logger
 
 import (
 	"fmt"
+	c "ph1-emulator/constants"
 	"ph1-emulator/numbers"
 )
 
 // LogRTL converte uma operação para notação RTL e exibe
 func LogRTL(opName string, value int) {
-	executeLogInformation(value, opName)
-}
-
-// Exibe a notação RTL
-func executeLogInformation(value int, name string) {
 	// Procura na tabela de simbolos pelo nome da operação
-	opSymbol := OperationSymbol[name]
+	opSymbol := OperationSymbol[opName]
 	// Converte para hexadecimal para imprimir corretamente
 	hexValue := numbers.IntToHex(value)
 
 	// Chama o handler que irá tratar cada RTL
-	rltExpression := handleRtlExpression(name, opSymbol, hexValue)
+	rltExpression := handleRtlExpression(opName, opSymbol, hexValue)
 
 	// Exibe a expressão rtl já preenchida
 	fmt.Println(rltExpression)
@@ -34,9 +30,9 @@ func handleRtlExpression(name string, opSymbol string, hexValue string) string {
 	// Preenche o RTL com os valores necessários para exibição correta
 	// de acordo com a operação, verificando quais usam o mesmo formato
 	// de mensagem
-	if simplifiedName == "ULA" || simplifiedName == "COND" {
+	if simplifiedName == c.Ula || simplifiedName == c.CondOp {
 		filledRtl = fmt.Sprintf(rtlExpression, name, hexValue, opSymbol, hexValue)
-	} else if simplifiedName == "NOP" || simplifiedName == "HLT" || simplifiedName == "NOT" {
+	} else if simplifiedName == c.NopOp || simplifiedName == c.HaltOp || simplifiedName == c.NotOp {
 		filledRtl = fmt.Sprintf(rtlExpression)
 	} else {
 		filledRtl = fmt.Sprintf(rtlExpression, hexValue, hexValue)

@@ -1,4 +1,4 @@
-package config
+package constants
 
 // Constantes do emulador
 const (

@@ -2,6 +2,7 @@ package regs
 
 import (
 	"log"
+	c "ph1-emulator/constants"
 	"ph1-emulator/numbers"
 )
 
@@ -17,7 +18,7 @@ func (ac *regAC) SetValue(value int) {
 
 	// Overflow
 	if err != nil {
-		log.Fatalf("RegAC overflow: %d", value)
+		log.Fatalf(c.AcRangeOverflow, value)
 	}
 
 	ac.value = val
